@@ -1,0 +1,6 @@
+.DS_Store
+.env
+*.key
+credentials.json
+node_modules/
+사건데이터/
