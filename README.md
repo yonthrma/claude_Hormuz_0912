@@ -30,6 +30,46 @@ git clone https://github.com/yonthrma/claude_Hormuz_0912.git
 | `.claude/skills/` | 스킬 10개 (route, orient, adr, interview, tdd, handoff, spec, sdd, set-goal, dev-loop) |
 | `.claude/agents/` | dispatcher — 스킬 조합 판단 |
 
+## 다른 컴퓨터(학교 PC)에서 시작하기
+
+전역 설치(`~/.claude/skills/`)는 그 컴퓨터에 안 따라갑니다. **하지만 필요 없습니다.**
+스킬이 이 저장소 `.claude/` 안에 들어 있어서, **폴더를 열면 그 폴더 기준으로 바로 켜집니다.**
+
+```bash
+git clone https://github.com/yonthrma/claude_Hormuz_0912.git
+```
+
+git이 없으면 GitHub 우측 상단 **Code → Download ZIP** 으로 받아 압축을 풀어도 동일합니다.
+
+그다음 그 폴더 안에 `사건데이터` 를 넣고 (자료는 그 컴퓨터에서 새로 받아야 합니다 —
+`.gitignore` 처리되어 저장소에 없습니다), **그 폴더에서 Claude Code 세션을 엽니다.**
+
+| 따라오는 것 | 따라오지 않는 것 |
+| --- | --- |
+| CLAUDE.md · 스킬 10개 · dispatcher · 어제도구 · 프롬프트 문서 | 사건데이터(용량) · 전역 스킬 설치 · GitHub 로그인 |
+
+⚠️ 제출할 때 푸시하려면 그 컴퓨터에 **GitHub 로그인이 필요**합니다.
+안 되면 웹에서 **Add file → Upload files** 로 올려도 제출은 됩니다. 미리 확인해 두세요.
+
+## 새 세션 첫 메시지
+
+CLAUDE.md 가 상황·규칙을 이미 들고 있으므로, 길게 쓸 필요가 없습니다.
+
+```
+CLAUDE.md 읽고 시작합니다.
+
+아침 브리핑에서 추가로 들은 것:
+[여기에 오늘 아침에 새로 들은 내용을 적기. 없으면 "없음"]
+
+먼저 /orient 사건데이터 로 자료 구조만 파악해 주세요.
+파일 내용은 아직 열지 말고, 큰 파일은 열 이름·행 수만 확인하세요.
+결론은 아직 내지 마세요.
+
+끝에 "내가 놓치고 있는 질문"이 있으면 지적해 주세요.
+```
+
+그다음부터는 [02_요청_프롬프트.md](02_요청_프롬프트.md) 의 2단계부터 순서대로.
+
 ## 02번 문서 구성
 
 **본편 — 순서대로 붙여넣는 프롬프트**
