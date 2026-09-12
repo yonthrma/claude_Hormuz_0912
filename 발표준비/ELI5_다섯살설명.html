@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한바다 3호 — 다섯 살에게 설명하기</title>
+<style>
+  /* 디자인.md 낮(종이) 색. 인터넷에서 아무것도 불러오지 않는다. */
+  :root { --bg:#FDF4E7; --dot:#E9D3B4; --card:#FFFFFF; --ink:#3E2A1C; --sub:#6E533A; --line:#4E3524; --soft:#D9C4A9; --pt:#7A2A46; --ptbg:#FFE3EE; --ok:#00614A; --okbg:#D9F9F0; --bad:#8A2B2B; --badbg:#F7E0E0; }
+  body { margin:0; background:var(--bg) radial-gradient(var(--dot) 1.4px, transparent 1.4px) 0 0/16px 16px; color:var(--ink); font-family:"Galmuri11","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif; font-weight:600; line-height:1.55; }
+  main { max-width:760px; margin:0 auto; padding:20px 16px 60px; }
+  h1 { font-size:20px; font-weight:800; margin:8px 0 4px; }
+  .lead { color:var(--sub); font-size:13px; margin:0 0 18px; }
+  section { background:var(--card); border:3px solid var(--line); border-radius:10px; margin:0 0 18px; overflow:hidden; }
+  section h2 { margin:0; padding:8px 14px; background:var(--line); color:var(--bg); font-size:13px; font-weight:800; }
+  .body { padding:16px; }
+  svg { display:block; width:100%; height:auto; max-height:230px; margin:0 auto 12px; }
+  p { font-size:17px; font-weight:700; margin:0 0 8px; }
+  p.small { font-size:15px; font-weight:400; line-height:1.7; color:var(--sub); }
+  .tag { display:inline-block; font-size:13px; font-weight:800; padding:2px 8px; border-radius:6px; border:2px solid; margin:0 6px 6px 0; }
+  .ok { color:var(--ok); background:var(--okbg); border-color:#00B88E; }
+  .bad { color:var(--bad); background:var(--badbg); border-color:#C25A5A; }
+  .pt { color:var(--pt); background:var(--ptbg); border-color:var(--pt); }
+  ol { font-size:15px; padding-left:22px; margin:0; } li { margin:0 0 6px; }
+  table { width:100%; border-collapse:collapse; font-size:15px; } td { padding:6px 8px; border-top:1px dashed var(--soft); vertical-align:top; } td:first-child { font-weight:800; white-space:nowrap; }
+  .txt { font-family:"Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif; font-weight:800; }
+</style>
+</head>
+<body>
+<main>
+<h1>한바다 3호 이야기 — 다섯 살에게 설명하기</h1>
+<p class="lead">발표 전에 뼈대를 머리에 넣는 용도. 그림 하나에 말 두 줄. 어려운 말은 괄호 안에.</p>
+
+<section>
+<h2>1. 스스로 가는 배</h2>
+<div class="body">
+<svg viewBox="0 0 600 220" role="img" aria-label="배가 바다 위를 가고 육지의 사람이 화면으로 지켜본다">
+  <rect x="0" y="150" width="600" height="70" fill="#D9C4A9"/>
+  <path d="M120 150 L160 110 L330 110 L360 150 Z" fill="#4E3524"/>
+  <rect x="200" y="80" width="60" height="30" fill="#7A2A46"/>
+  <circle cx="230" cy="60" r="10" fill="none" stroke="#4E3524" stroke-width="4"/>
+  <line x1="230" y1="70" x2="230" y2="80" stroke="#4E3524" stroke-width="4"/>
+  <rect x="440" y="60" width="120" height="90" rx="8" fill="#fff" stroke="#4E3524" stroke-width="4"/>
+  <rect x="455" y="75" width="90" height="50" fill="#D9F9F0"/>
+  <circle cx="500" cy="100" r="6" fill="#7A2A46"/>
+  <circle cx="500" cy="185" r="14" fill="#3E2A1C"/>
+  <path d="M470 220 Q500 195 530 220" fill="#3E2A1C"/>
+  <path d="M370 100 Q410 40 445 75" fill="none" stroke="#7A2A46" stroke-width="3" stroke-dasharray="6 6"/>
+  <text x="120" y="40" class="txt" font-size="18" fill="#3E2A1C">배는 스스로 길을 가요</text>
+  <text x="400" y="40" class="txt" font-size="18" fill="#3E2A1C">사람은 육지에서 화면으로 지켜봐요</text>
+</svg>
+<p>우리 배는 운전대를 컴퓨터가 잡아요. 사람은 부산에서 화면으로 지켜봐요.</p>
+<p class="small">(자율운항 실증선. 나라에서 "조건을 지키면 해 봐도 된다"고 허락해 줬어요 — 실증 특례.)</p>
+</div>
+</section>
+
+<section>
+<h2>2. 하늘의 별이 거짓말을 했어요</h2>
+<div class="body">
+<svg viewBox="0 0 600 220" role="img" aria-label="위성 신호가 흐려지고 배가 자기 위치를 헷갈린다">
+  <g fill="#7A2A46"><polygon points="80,40 88,62 112,62 92,76 100,98 80,84 60,98 68,76 48,62 72,62"/><polygon points="300,30 306,46 324,46 310,56 316,72 300,62 284,72 290,56 276,46 294,46" opacity=".35"/><polygon points="500,45 507,63 527,63 511,75 518,93 500,82 482,93 489,75 473,63 493,63" opacity=".2"/></g>
+  <text x="130" y="60" class="txt" font-size="16" fill="#3E2A1C">위성 14개</text>
+  <text x="330" y="50" class="txt" font-size="16" fill="#8A2B2B">→ 7개</text>
+  <text x="530" y="60" class="txt" font-size="16" fill="#8A2B2B">→ 3개</text>
+  <rect x="0" y="150" width="600" height="70" fill="#D9C4A9"/>
+  <path d="M250 150 L280 120 L380 120 L400 150 Z" fill="#4E3524"/>
+  <text x="255" y="105" class="txt" font-size="28" fill="#8A2B2B">?</text>
+  <text x="330" y="105" class="txt" font-size="28" fill="#8A2B2B">?</text>
+  <text x="120" y="200" class="txt" font-size="16" fill="#3E2A1C">23:12 부터 106분 동안 신호가 나빴어요</text>
+</svg>
+<p>배는 하늘의 별(GPS 위성)을 보고 자기 자리를 알아요. 그날 밤 누군가 별을 가리고 가짜 별을 띄웠어요.</p>
+<p class="small">(GNSS 교란·스푸핑. 23:12 위성 14개→7개, 23:29 부터 3개까지. 00:58 까지 6,360초. 이 바다에서는 올해 여러 번 있었던 일이에요.)</p>
+</div>
+</section>
+
+<section>
+<h2>3. 배가 물었는데, 아무도 2분 안에 대답하지 않았어요</h2>
+<div class="body">
+<svg viewBox="0 0 600 220" role="img" aria-label="배가 새 길로 갈지 묻고 120초 후 혼자 간다">
+  <rect x="30" y="40" width="250" height="70" rx="12" fill="#fff" stroke="#4E3524" stroke-width="4"/>
+  <text x="50" y="70" class="txt" font-size="16" fill="#3E2A1C">"새 길로 갈까요?"</text>
+  <text x="50" y="95" class="txt" font-size="14" fill="#6E533A">23:32 승인 대기</text>
+  <rect x="330" y="40" width="240" height="70" rx="12" fill="#F7E0E0" stroke="#C25A5A" stroke-width="4"/>
+  <text x="350" y="70" class="txt" font-size="16" fill="#8A2B2B">…… (대답 없음)</text>
+  <text x="350" y="95" class="txt" font-size="14" fill="#8A2B2B">23:34 120초 지남 → 혼자 감</text>
+  <path d="M60 180 L300 180" stroke="#4E3524" stroke-width="6"/>
+  <path d="M300 180 Q400 175 520 120" stroke="#8A2B2B" stroke-width="6" fill="none"/>
+  <polygon points="520,120 500,118 512,136" fill="#8A2B2B"/>
+  <text x="60" y="210" class="txt" font-size="15" fill="#3E2A1C">원래 길 292°</text>
+  <text x="430" y="210" class="txt" font-size="15" fill="#8A2B2B">새 길 318° (오른쫙 = 이란 쪽)</text>
+</svg>
+<p>배가 "새 길로 갈까요?" 하고 물었어요. 지켜보는 사람은 그 말이 무슨 뜻인지 배운 적이 없어서 가만히 있었어요. 2분이 지나자 배는 혼자 새 길로 갔어요.</p>
+<p class="small">(이건 고장이 아니에요. 우리가 5월 30일에 <b>그렇게 하라고 만들어 둔 규칙</b>이에요 — NAV-PLAN-211. 그리고 "가짜 별이 있을 때 이 규칙이 안전한가" 시험(GNSS-03)은 하지 않고 배에 실었어요.)</p>
+<span class="tag bad">문제 1: 규칙을 시험 없이 실었다</span><span class="tag bad">문제 2: 사람에게 뭘 해야 하는지 안 가르쳤다</span>
+</div>
+</section>
+
+<section>
+<h2>4. 옆 나라 마당에 들어갔고, 부르는 소리에 대답하지 않았어요</h2>
+<div class="body">
+<svg viewBox="0 0 600 220" role="img" aria-label="경계선을 넘은 배와 무전을 부르는 순찰선">
+  <line x1="0" y1="110" x2="600" y2="110" stroke="#8A2B2B" stroke-width="4" stroke-dasharray="14 10"/>
+  <text x="10" y="100" class="txt" font-size="14" fill="#8A2B2B">여기부터 이란 바다 (경계)</text>
+  <path d="M230 95 L260 65 L360 65 L380 95 Z" fill="#4E3524"/>
+  <text x="240" y="50" class="txt" font-size="14" fill="#3E2A1C">23:58 경계 넘음 · 속도 그대로</text>
+  <path d="M440 160 L460 140 L530 140 L545 160 Z" fill="#7A2A46"/>
+  <text x="400" y="195" class="txt" font-size="14" fill="#7A2A46">순찰선: "누구야? 멈춰!" ×3</text>
+  <text x="60" y="160" class="txt" font-size="14" fill="#8A2B2B">23:47, 23:52 → 대답 없음</text>
+  <text x="60" y="185" class="txt" font-size="14" fill="#3E2A1C">00:04 이름 부르자 41초 만에 대답</text>
+  <text x="60" y="210" class="txt" font-size="14" fill="#3E2A1C">00:58 멈춤 · 01:20 배에 올라와 11명 데려감</text>
+</svg>
+<p>배는 옆 나라 바다로 들어갔어요. 순찰선이 무전으로 두 번 불렀는데 우리 배는 대답을 안 했어요. 이름을 부르니 그때 대답했어요. 그리고 잡혔어요. 배에 탄 11명이 붙잡혀 있어요.</p>
+<p class="small">(86분 동안 사람이 운전대를 다시 잡지 않았어요. 허락 조건에는 "그런 일이 생기면 <b>바로</b> 사람이 잡아라"라고 적혀 있어요 — 실증 특례 제7조 2호.)</p>
+<span class="tag bad">문제 3: 위험한 바다에 들어가는 준비(보험에 미리 말하기, 통행 허가)를 안 했다</span>
+</div>
+</section>
+
+<section>
+<h2>5. 우리도 배가 진짜 어디 있었는지 몰라요</h2>
+<div class="body">
+<svg viewBox="0 0 600 220" role="img" aria-label="두 지도 위치가 크게 다르다">
+  <rect x="30" y="30" width="250" height="160" rx="10" fill="#fff" stroke="#4E3524" stroke-width="4"/>
+  <text x="45" y="55" class="txt" font-size="14" fill="#3E2A1C">우리 배의 일기장 (항적 파일)</text>
+  <circle cx="90" cy="130" r="12" fill="#4E3524"/>
+  <text x="110" y="135" class="txt" font-size="13" fill="#3E2A1C">"나 여기 있어"</text>
+  <rect x="320" y="30" width="250" height="160" rx="10" fill="#fff" stroke="#4E3524" stroke-width="4"/>
+  <text x="335" y="55" class="txt" font-size="14" fill="#3E2A1C">순찰선이 부른 자리 (23:47)</text>
+  <circle cx="500" cy="130" r="12" fill="#7A2A46"/>
+  <text x="380" y="135" class="txt" font-size="13" fill="#7A2A46">"너 여기 있잖아"</text>
+  <path d="M102 130 L488 130" stroke="#8A2B2B" stroke-width="3" stroke-dasharray="8 8"/>
+  <text x="230" y="118" class="txt" font-size="16" fill="#8A2B2B">55 NM (100 km) 차이</text>
+  <text x="60" y="212" class="txt" font-size="14" fill="#3E2A1C">일기장에는 "1.4 NM 튀었다"는 그 순간도 안 적혀 있어요</text>
+</svg>
+<p>우리 배의 일기장(로그)과 순찰선이 부른 자리가 100 km나 달라요. 일기장이 틀렸는지, 우리를 부른 게 아닌지 몰라요.</p>
+<p class="small">(그래서 "우리는 옆 나라 바다에 안 들어갔어요"라고 <b>말할 수 없어요</b>. 이게 보고서에서 가장 중요한 "모르는 것"이에요 — P4.)</p>
+<span class="tag pt">모르는 것을 먼저 말하는 보고서가 더 믿음을 얻어요 (교안 115p)</span>
+</div>
+</section>
+
+<section>
+<h2>6. 그래서 내일 아침 사장님 밑 본부장님이 고를 것 6개</h2>
+<div class="body">
+<table>
+<tr><td>사람 11명</td><td>우리가 직접 옆 나라와 이야기하지 말고, <b>나라(외교부·해수부)에 맡기기</b>. 돈을 주면 미국이 벌을 줄 수 있어요(OFAC). 우리는 가족을 챙겨요.</td></tr>
+<tr><td>배·짐 손님</td><td>배를 빌린 손님에게 <b>아는 것만 솔직하게</b>. "언제 풀린다"는 말은 안 해요. 비슷한 일이 예전엔 1~3달, 배는 3달~1년 넘게 걸렸어요.</td></tr>
+<tr><td>다른 배 2척</td><td>같은 규칙이 들어 있어요. <b>"2분 지나면 혼자 가기" 규칙을 끄고</b>, 별이 거짓말하는 바다에서는 사람이 운전해요.</td></tr>
+<tr><td>선생님(해수부)</td><td>"이런 일이 생기면 하루 안에 말해라"가 약속이에요. <b>오늘 23:32 전에</b> 말해요. 감추면 더 크게 혼나요.</td></tr>
+<tr><td>보험</td><td>"위험한 바다에 들어갈 땐 3일 전에 말해라"였는데 <b>말을 안 했어요</b>. 그래도 지금 바로 알리고, 안 줄 수도 있다고 생각하고 돈 계획을 세워요.</td></tr>
+<tr><td>밖에 말하기</td><td>"우리 배는 잘못 없어요"라고 <b>말하지 않아요</b>. 시험 안 한 기록이 회사 안에 있어요. "사람들 안전 확인 중, 조사 중"만 말해요.</td></tr>
+</table>
+<p class="small" style="margin-top:10px">(보고서는 정답을 정하는 종이가 아니에요. 본부장님이 고를 수 있게 <b>이유를 나란히 놓는 종이</b>예요 — 교안 107p.)</p>
+</div>
+</section>
+
+<section>
+<h2>7. 왜 "옆 나라가 별을 가렸으니 우리 잘못이 아니다"라고 안 했나요</h2>
+<div class="body">
+<ol>
+<li>별을 가린 건 우리가 <b>못 바꾸는 일</b>이에요. 우리가 바꿀 수 있는 건 배의 규칙, 사람 교육, 준비예요.</li>
+<li>옆 나라는 이미 "너희가 우리 마당에 들어왔고 불러도 대답 안 했다"고 말했어요. 그 두 가지는 우리 기록에도 그대로 있어요.</li>
+<li>5월에 같은 바다에서 비슷한 일이 있었는데 "지켜보자"로 끝냈어요. 올해 이 바다에 "별 조심" 경고가 네 번 났어요.</li>
+</ol>
+<p class="small" style="margin-top:10px">한 줄로: <b>별이 거짓말한 건 맞아요. 그런데 거짓말하는 별을 만나면 어떻게 할지, 우리가 미리 정하지도 시험하지도 가르치지도 않았어요.</b></p>
+</div>
+</section>
+
+<section>
+<h2>8. 숫자를 어떻게 믿나요</h2>
+<div class="body">
+<p>보고서의 숫자 82개는 전부 컴퓨터가 원본 파일 43만 줄을 다시 세서 나온 값이에요. 검사 프로그램이 매번 다시 세서 같은지 확인해요.</p>
+<p class="small">(`분석/사실재구성.py` → JSON → `검사_보고서.mjs` 11항목 통과. 바깥 자료 33건은 전부 원문을 열어 봤고, 제목만 본 10건은 안 썼어요.)</p>
+<span class="tag ok">숫자 재현 82/82</span><span class="tag ok">검사 11/11</span>
+</div>
+</section>
+</main>
+</body>
+</html>
