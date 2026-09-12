@@ -4,3 +4,5 @@
 credentials.json
 node_modules/
 사건데이터/
+분석/외부원문/
+__pycache__/
