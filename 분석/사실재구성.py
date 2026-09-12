@@ -374,6 +374,64 @@ for t in tr5:
 R["이전항차_202605"]["hdg_분평균_2150_2240"] = {k: round(sum(v)/len(v), 1) for k, v in sorted(pm.items()) if k.endswith(("0", "5"))}
 
 # ────────────────────────────────────────────────────────────────
+# 10. 전 구간(18:00 ~ 익일 23:59) 시간별 요약 — 앞뒤만 보지 않았다는 증거
+# ────────────────────────────────────────────────────────────────
+hourly = {}
+for t in track:
+    h = t[0].strftime("%m-%d %H")
+    d = hourly.setdefault(h, {"n": 0, "sog_합": 0.0, "sog_최소": 99.0, "sog_최대": 0.0, "hdg_최소": 999.0, "hdg_최대": -1.0, "mode": set(), "lat_끝": None, "lon_끝": None})
+    d["n"] += 1; d["sog_합"] += t[3]; d["sog_최소"] = min(d["sog_최소"], t[3]); d["sog_최대"] = max(d["sog_최대"], t[3])
+    d["hdg_최소"] = min(d["hdg_최소"], t[4]); d["hdg_최대"] = max(d["hdg_최대"], t[4]); d["mode"].add(t[6]); d["lat_끝"], d["lon_끝"] = round(t[1], 4), round(t[2], 4)
+R["항적"]["시간별"] = {k: {"n": v["n"], "sog_평균": round(v["sog_합"] / v["n"], 2), "sog_최소": v["sog_최소"], "sog_최대": v["sog_최대"],
+                        "hdg_범위": [v["hdg_최소"], v["hdg_최대"]], "mode": sorted(v["mode"]), "끝위치": [v["lat_끝"], v["lon_끝"]]} for k, v in sorted(hourly.items())}
+# 01:20 이후 이동했나 (예인 여부)
+p0120 = by_time[ts("2026-09-12 01:20:00")]; pend = track[-1]
+R["항적"]["0120이후_이동"] = {"01:20_위치": [round(p0120[1], 5), round(p0120[2], 5)], "23:59:59_위치": [round(pend[1], 5), round(pend[2], 5)],
+                          "거리NM": round(dist_nm(p0120[1], p0120[2], pend[1], pend[2]), 3),
+                          "01:20이후_sog_최대": max(t[3] for t in track if t[0] >= ts("2026-09-12 01:20:00")),
+                          "비고": "타임라인은 01:20 '선박 예인'이라 하나 항적은 이후 위치 변화 여부를 이렇게 기록"}
+
+g_hourly = {}
+for g in gnss:
+    h = g[0].strftime("%m-%d %H")
+    d = g_hourly.setdefault(h, {"n": 0, "sats_합": 0, "sats_최소": 99, "snr_최소": 99.0, "interf_최대": 0, "interf>0": 0})
+    d["n"] += 1; d["sats_합"] += g[1]; d["sats_최소"] = min(d["sats_최소"], g[1]); d["snr_최소"] = min(d["snr_최소"], g[3])
+    d["interf_최대"] = max(d["interf_최대"], g[4]); d["interf>0"] += 1 if g[4] > 0 else 0
+R["위성수신"]["시간별"] = {k: {"n": v["n"], "sats_평균": round(v["sats_합"] / v["n"], 1), "sats_최소": v["sats_최소"], "snr_최소": v["snr_최소"],
+                          "interf_최대": v["interf_최대"], "교란초": v["interf>0"]} for k, v in sorted(g_hourly.items())}
+R["위성수신"]["전체_교란초"] = sum(1 for g in gnss if g[4] > 0)
+
+# 주기관 전체 — 시간별 rpm/부하/배기온, 연료 소비 열 합계(단위는 열 이름 그대로 mgps)
+e_hourly = {}; fo_total_before = 0.0; fo_total_after = 0.0; exh_max = (0, None); lo_min = (99, None)
+with open(P("운항로그", "주기관_HANBADA3.csv"), encoding="utf-8") as f:
+    for r in csv.DictReader(f):
+        t = ts(r["utc_kst"]); h = t.strftime("%m-%d %H")
+        rpm, load, exh, lo, fo = float(r["rpm"]), float(r["load_pct"]), float(r["exh_temp_avg_c"]), float(r["lo_press_bar"]), float(r["fo_cons_mgps"])
+        d = e_hourly.setdefault(h, {"n": 0, "rpm_합": 0.0, "load_합": 0.0, "rpm_최소": 999.0, "rpm_최대": 0.0})
+        d["n"] += 1; d["rpm_합"] += rpm; d["load_합"] += load; d["rpm_최소"] = min(d["rpm_최소"], rpm); d["rpm_최대"] = max(d["rpm_최대"], rpm)
+        if t < ts("2026-09-12 00:58:00"): fo_total_before += fo
+        else: fo_total_after += fo
+        if exh > exh_max[0]: exh_max = (exh, str(t))
+        if rpm > 1 and lo < lo_min[0]: lo_min = (lo, str(t))
+R["주기관"]["시간별"] = {k: {"n": v["n"], "rpm_평균": round(v["rpm_합"] / v["n"], 1), "load_평균": round(v["load_합"] / v["n"], 1),
+                        "rpm_범위": [v["rpm_최소"], v["rpm_최대"]]} for k, v in sorted(e_hourly.items())}
+R["주기관"]["연료소비열_합_기관정지전(mgps단위합)"] = round(fo_total_before, 0)
+R["주기관"]["연료소비열_합_기관정지후"] = round(fo_total_after, 0)
+R["주기관"]["배기온_최대"] = {"값": exh_max[0], "시각": exh_max[1]}
+R["주기관"]["윤활유압_최소(운전중)"] = {"값": lo_min[0], "시각": lo_min[1]}
+R["주기관"]["비고"] = "기관 이상 징후(배기온·윤활유압) 판단 기준은 파일에 없음. 값만 기록"
+
+# AIS — 시간별 선박 수와 순찰선 시간별 최소 CPA
+a_hourly = defaultdict(set); patrol_hourly = {}
+with open(P("운항로그", "AIS주변선.csv"), encoding="utf-8") as f:
+    for r in csv.DictReader(f):
+        h = r["utc_kst"][5:13]; a_hourly[h].add(r["name"])
+        if r["name"] == "IRGCN PATROL":
+            c = float(r["cpa_nm"]); patrol_hourly[h] = min(patrol_hourly.get(h, 99.0), c)
+R["AIS"]["시간별_선박수"] = {k: len(v) for k, v in sorted(a_hourly.items())}
+R["AIS"]["순찰선_시간별_최소CPA"] = dict(sorted(patrol_hourly.items()))
+
+# ────────────────────────────────────────────────────────────────
 # 저장 + 요약 출력
 # ────────────────────────────────────────────────────────────────
 with open(OUT, "w", encoding="utf-8") as f:
@@ -403,4 +461,10 @@ show("보조: 재계산후~수동전환", R["항적"]["재계산후_수동전환
 show("보조: 정선까지", R["항적"]["정선까지_분"])
 show("보조: NAVWARN 박스", R["항적"]["NAVWARN박스_안에_있던_기록시각"])
 show("보조: 5월 항차 침로", {"hdg_범위": R["이전항차_202605"]["hdg_범위"], "분평균": R["이전항차_202605"]["hdg_분평균_2150_2240"]})
+show("전구간: 항적 시간별", R["항적"]["시간별"])
+show("전구간: 01:20 이후 이동", R["항적"]["0120이후_이동"])
+show("전구간: 위성수신 시간별", R["위성수신"]["시간별"])
+show("전구간: 위성수신 전체 교란초", R["위성수신"]["전체_교란초"])
+show("전구간: 주기관", {k: v for k, v in R["주기관"].items() if k not in ("열", "파일")})
+show("전구간: AIS 시간별 선박수·순찰선 CPA", {"선박수": R["AIS"]["시간별_선박수"], "순찰선CPA": R["AIS"]["순찰선_시간별_최소CPA"]})
 print(f"\n저장: {OUT}")
