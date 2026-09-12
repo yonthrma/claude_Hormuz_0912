@@ -56,14 +56,14 @@ def xticks(t0, t1, y, step=30):
         t += timedelta(minutes=step)
     return "".join(out)
 def marker(t, t0, t1, ytop, ybot, label, row=0):
-    x = xmap(t, t0, t1); ly = 16 + row * 20
-    return (f'<line x1="{x:.1f}" y1="{ytop}" x2="{x:.1f}" y2="{ybot}" stroke="{PT}" stroke-width="2" stroke-dasharray="6 5"/>'
-            f'<text class="lab" x="{x:.1f}" y="{ly}" text-anchor="middle">{label}</text>')
+    x = xmap(t, t0, t1); ly = 18 + row * 22
+    line = f'<line x1="{x:.1f}" y1="{ytop}" x2="{x:.1f}" y2="{ybot}" stroke="{PT}" stroke-width="2" stroke-dasharray="6 5"/>'
+    return line + (f'<text class="lab" x="{x:.1f}" y="{ly}" text-anchor="middle">{label}</text>' if label else "")
 
 # ── 1) 위성수신 ─────────────────────────────────────────────────────
 def chart_gnss():
     t0, t1 = T(22, 30), T(1, 30, 12); H = 300
-    sats_y0, sats_y1 = 150, 50        # 위성 수 패널
+    sats_y0, sats_y1 = 150, 62        # 위성 수 패널 (위 62px 는 사건 라벨 2줄)
     snr_y0, snr_y1 = 268, 178         # SNR 패널
     out = [f'<svg class="ch" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="위성 수와 SNR 분 평균, 교란 등급 띠">']
     # 교란 띠 (등급 1 노랑, 2 빨강) — 두 패널에 걸쳐
@@ -79,18 +79,19 @@ def chart_gnss():
     out.append(poly([(xmap(k, t0, t1), ymap(v, 0, 15, sats_y0, sats_y1)) for k, v in zip(g_keys, g["sats_used"])], INK))
     out.append(poly([(xmap(k, t0, t1), ymap(v, 10, 50, snr_y0, snr_y1)) for k, v in zip(g_keys, g["avg_snr_dbhz"])], SUB))
     out.append(xticks(t0, t1, snr_y0 + 2))
-    for t, lab, row in ((T(23, 12), "23:12 교란 시작", 0), (T(23, 29), "23:29 등급 2", 1), (T(23, 32), "23:32 재계산", 0), (T(0, 58, 12), "00:58 수동 전환·교란 종료", 0)):
+    # 사건 표시는 신호와 관련된 셋만 (23:32 재계산은 항적 그래프에)
+    for t, lab, row in ((T(23, 12), "23:12 교란 시작", 0), (T(23, 29), "23:29 등급 2", 1), (T(0, 58, 12), "00:58 수동 전환·교란 종료", 0)):
         out.append(marker(t, t0, t1, sats_y1 - 4, snr_y0, lab, row))
-    # 띠 범례
-    out.append(f'<rect x="{W-330}" y="{H-22}" width="18" height="14" fill="{UNKBG}" stroke="{SOFT}"/><text class="t" x="{W-306}" y="{H-10}">교란 등급 1</text>')
-    out.append(f'<rect x="{W-180}" y="{H-22}" width="18" height="14" fill="{BADBG}" stroke="{SOFT}"/><text class="t" x="{W-156}" y="{H-10}">교란 등급 2</text>')
+    # 띠 범례 — 오른쪽 위 둘째 줄 (눈금 라벨과 겹치지 않게)
+    out.append(f'<rect x="{W-330}" y="29" width="18" height="14" fill="{UNKBG}" stroke="{SOFT}"/><text class="t" x="{W-306}" y="41">교란 등급 1</text>')
+    out.append(f'<rect x="{W-180}" y="29" width="18" height="14" fill="{BADBG}" stroke="{SOFT}"/><text class="t" x="{W-156}" y="41">교란 등급 2</text>')
     out.append("</svg>")
     return "".join(out)
 
 # ── 2) 항적 ─────────────────────────────────────────────────────────
 def chart_track():
     t0, t1 = T(23, 0), T(1, 15, 12); H = 300
-    hdg_y0, hdg_y1 = 165, 55          # 침로 패널 285~325
+    hdg_y0, hdg_y1 = 170, 78          # 침로 패널 285~325 (위 78px 는 사건 라벨 3줄)
     sog_y0, sog_y1 = 268, 195         # 속력 패널 0~16
     out = [f'<svg class="ch" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="침로와 속력 분 평균, 사건 표시">']
     for v in (290, 300, 310, 320): out.append(axis(ymap(v, 285, 325, hdg_y0, hdg_y1)) + ylab(60, ymap(v, 285, 325, hdg_y0, hdg_y1) + 6, f"{v}°"))
@@ -100,8 +101,9 @@ def chart_track():
     out.append(poly([(xmap(k, t0, t1), ymap(min(max(v, 285), 325), 285, 325, hdg_y0, hdg_y1)) for k, v in zip(t_keys, tr["hdg_deg"])], BAD))
     out.append(poly([(xmap(k, t0, t1), ymap(v, 0, 16, sog_y0, sog_y1)) for k, v in zip(t_keys, tr["sog_kn"])], INK))
     out.append(xticks(t0, t1, sog_y0 + 2, step=15))
-    marks = ((T(23, 12), "23:12 교란", 1), (T(23, 32), "23:32 재계산", 0), (T(23, 41), "23:41 경계 접근", 1), (T(23, 47), "23:47 VHF", 0),
-             (T(23, 52), "23:52 VHF", 1), (T(23, 58), "23:58 통과", 0), (T(0, 4, 12), "00:04 선명 호출", 1), (T(0, 58, 12), "00:58 수동 전환", 0))
+    # 라벨 3줄로 겹침 방지. VHF 두 호출은 선 둘, 라벨 하나.
+    marks = ((T(23, 12), "23:12 교란", 0), (T(23, 32), "23:32 재계산", 0), (T(23, 41), "23:41 경계 접근", 1), (T(23, 47), "23:47·52 VHF", 2),
+             (T(23, 52), "", 2), (T(23, 58), "23:58 경계 통과", 0), (T(0, 4, 12), "00:04 선명 호출", 1), (T(0, 58, 12), "00:58 수동 전환", 0))
     for t, lab, row in marks: out.append(marker(t, t0, t1, hdg_y1 - 4, sog_y0, lab, row))
     # 시작·끝 침로 값
     out.append(f'<text class="lab" x="{xmap(T(23,32),t0,t1)+6:.1f}" y="{ymap(291.5,285,325,hdg_y0,hdg_y1)+22:.1f}">291.5°</text>')
