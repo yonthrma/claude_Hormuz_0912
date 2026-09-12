@@ -61,6 +61,12 @@ function 슬라이드수() {
   const m = 디자인.match(/\*\*(\d+)장\.\*\*/);
   return m ? Number(m[1]) : 12;
 }
+function 구간표() {
+  // "3분 문제 4장 / 4분 근거 6장 / 2분 결론 2장 / 1분 모르는 것 1장"
+  const out = {};
+  for (const m of 디자인.matchAll(/\d분 (문제|근거|결론|모르는 것) (\d+)장/g)) out[m[1]] = Number(m[2]);
+  return out;
+}
 
 // ── 1. 색 ────────────────────────────────────────────────────────────
 {
@@ -182,9 +188,16 @@ if (is발표) {
   const n = (html.match(/<section class="slide/g) ?? []).length;
   const want = 슬라이드수();
   if (n === want) pass(`슬라이드 ${n}장 (디자인.md ${want}장)`); else fail(`슬라이드 ${n}장 ≠ ${want}장`);
-  const 구간 = { "3분 · 문제": 4, "4분 · 근거": 5, "2분 · 결론": 2, "1분 · 모르는 것": 1 };
+  const 구간 = 구간표();
   const 어긋 = Object.entries(구간).filter(([k, v]) => (html.match(new RegExp(`data-seg="${k}"`, "g")) ?? []).length !== v).map(([k]) => k);
-  if (어긋.length === 0) pass("구간별 장수 4/5/2/1"); else fail(`구간 장수 불일치: ${어긋.join(", ")}`);
+  if (Object.keys(구간).length === 4 && 어긋.length === 0) pass(`구간별 장수 ${Object.values(구간).join("/")} (디자인.md)`); else fail(`구간 장수 불일치: ${어긋.join(", ") || "디자인.md 구간 표를 못 읽음"}`);
+  // 머리에 시간 표기 금지, 풀어쓰기(lead) 한 줄 필수
+  const 머리시간 = (html.match(/class="seg">[^<]*\d분/g) ?? []).length;
+  if (머리시간 === 0) pass("머리에 시간 표기 없음 (구간 이름만)"); else fail(`머리에 시간 표기 ${머리시간}장`);
+  const lead없음 = [...html.matchAll(/<section class="slide[\s\S]*?<\/section>/g)].filter((m) => !/class="lead"/.test(m[0])).length;
+  if (lead없음 === 0) pass("모든 장에 풀어쓰기 한 줄(lead) 있음"); else fail(`풀어쓰기 없는 장 ${lead없음}`);
+  const 과정문구 = ["제목만 본", "미사용", "검색 요약", "WebFetch", "403"].filter((w) => html.replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>|<!--[\s\S]*?-->/g, "").includes(w));
+  if (과정문구.length === 0) pass("작업 과정 문구 없음"); else fail(`작업 과정 문구가 슬라이드에 있음: ${과정문구.join(", ")}`);
   const 섹션들 = [...html.matchAll(/<section class="slide[\s\S]*?<\/section>/g)].map((m) => m[0]);
   const 근거없음 = 섹션들.filter((s) => !/class="src">[^<]*\.(md|csv|py|json)/.test(s)).length;
   if (근거없음 === 0) pass("모든 슬라이드 하단에 파일명 근거 있음"); else fail(`파일명 근거 없는 슬라이드 ${근거없음}장`);
