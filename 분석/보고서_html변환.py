@@ -57,7 +57,8 @@ def flush_table(rows):
     for r in body:
         tds = []
         for j, c in enumerate(r):
-            cls = ' class="k"' if j == 0 else ""
+            # 첫 열은 굵게. 16자 이하면 줄바꿈 금지(마지막 한 글자가 다음 줄로 밀리는 것 방지)
+            cls = (' class="k nw"' if len(c) <= 16 else ' class="k"') if j == 0 else ""
             v = inline(c)
             if j == 0 and cur_h2.startswith("부록 C"):
                 v = '<span class="chip no">✕</span> ' + v       # 채택하지 않은 안
@@ -193,6 +194,7 @@ table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}
 th{background:var(--thead);text-align:left;padding:8px 10px;border-bottom:2px solid var(--line);font-weight:700;white-space:nowrap}
 td{padding:8px 10px;border-top:1px solid var(--soft);vertical-align:top}
 td.k{font-weight:700}
+td.nw{white-space:nowrap}
 @media print{.band{-webkit-print-color-adjust:exact}.tbl{overflow:visible;border:1px solid var(--line)}h2{break-after:avoid}}
 """
 
@@ -201,7 +203,7 @@ page = f"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>항차 이상 보고서 — HANBADA 3 호르무즈 억류 (TR-2026-0912 안)</title>
+<title>항차 이상 보고서 — HANBADA 3 호르무즈 억류 (TR-2026-0912)</title>
 <style>{CSS}</style>
 </head>
 <body>

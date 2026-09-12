@@ -81,6 +81,33 @@ function 슬라이드수() {
   else fail(`디자인.md 에 없는 색: ${무단.join(", ")}`);
 }
 
+// ── 1-2. 색 대비 (WCAG) — 디자인.md 표의 색값으로 계산 ─────────────
+function lum(hex) {
+  const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function contrast(a, b) { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); }
+{
+  const 색 = 낮색();
+  const 본문기준 = Number((디자인.match(/본문 글자와 바탕의 대비는\s*\*\*(\d+):1/) ?? [])[1] ?? 7);
+  const 보조기준 = Number((디자인.match(/보조 글자는\s*\*\*([\d.]+):1/) ?? [])[1] ?? 4.5);
+  const pairs = [];
+  for (const bg of ["바탕", "카드"]) {
+    if (색["본문 글자"] && 색[bg]) pairs.push([`본문 글자/${bg}`, 색["본문 글자"], 색[bg], 본문기준]);
+    if (색["보조 글자"] && 색[bg]) pairs.push([`보조 글자/${bg}`, 색["보조 글자"], 색[bg], 보조기준]);
+  }
+  if (색["보조 글자"] && 색["표 머리 배경"]) pairs.push(["보조 글자/표 머리", 색["보조 글자"], 색["표 머리 배경"], 보조기준]);
+  if (색["바탕"] && 색["굵은 테두리"]) pairs.push(["띠 글자(바탕색)/굵은 테두리", 색["바탕"], 색["굵은 테두리"], 본문기준]);
+  const pm = 디자인.match(/\|\s*포인트\s*\|\s*`(#[0-9A-Fa-f]{6})` \(글자\) \/ `(#[0-9A-Fa-f]{6})` \(바탕\)/);
+  if (pm) { pairs.push(["포인트 글자/포인트 바탕", pm[1], pm[2], 보조기준]); if (색["바탕"]) pairs.push(["포인트(링크)/바탕", pm[1], 색["바탕"], 보조기준]); }
+  for (const c of 뜻색()) pairs.push([`${c.뜻} 글자/바탕`, c.글자, c.바탕, 보조기준]);
+  const 낮음 = pairs.filter(([, a, b, min]) => contrast(a, b) < min).map(([n, a, b, min]) => `${n} ${contrast(a, b).toFixed(2)}:1 < ${min}:1`);
+  const 최저 = Math.min(...pairs.map(([, a, b]) => contrast(a, b)));
+  if (pairs.length && 낮음.length === 0) pass(`색 대비 ${pairs.length}쌍 모두 기준 이상 (본문 ${본문기준}:1 · 보조 ${보조기준}:1, 최저 ${최저.toFixed(2)}:1)`);
+  else fail(`색 대비 미달: ${낮음.join(" / ") || "표를 못 읽음"}`);
+}
+
 // ── 2. 뜻이 있는 색은 기호와 함께 ───────────────────────────────────
 {
   const 뜻 = 뜻색();
@@ -158,8 +185,23 @@ if (is발표) {
   const 구간 = { "3분 · 문제": 4, "4분 · 근거": 5, "2분 · 결론": 2, "1분 · 모르는 것": 1 };
   const 어긋 = Object.entries(구간).filter(([k, v]) => (html.match(new RegExp(`data-seg="${k}"`, "g")) ?? []).length !== v).map(([k]) => k);
   if (어긋.length === 0) pass("구간별 장수 4/5/2/1"); else fail(`구간 장수 불일치: ${어긋.join(", ")}`);
-  const 근거없음 = [...html.matchAll(/<section class="slide[\s\S]*?<\/section>/g)].map((m) => m[0]).filter((s) => !/class="src">[^<]*\.(md|csv|py|json)/.test(s)).length;
+  const 섹션들 = [...html.matchAll(/<section class="slide[\s\S]*?<\/section>/g)].map((m) => m[0]);
+  const 근거없음 = 섹션들.filter((s) => !/class="src">[^<]*\.(md|csv|py|json)/.test(s)).length;
   if (근거없음 === 0) pass("모든 슬라이드 하단에 파일명 근거 있음"); else fail(`파일명 근거 없는 슬라이드 ${근거없음}장`);
+  // 분량: 뼈대 줄(li + p, 본문 안) ≤ 디자인.md 의 "줄 N개 이내", 핵심 숫자 ≤ 1
+  const 줄한도 = Number((디자인.match(/뼈대 줄\s*\*\*(\d+)개 이내\*\*/) ?? [])[1] ?? 5);
+  const 과다 = [];
+  섹션들.forEach((s, k) => {
+    const body = (s.match(/<div class="body">[\s\S]*?<\/div>/g) ?? []).join("");
+    const 줄 = (body.match(/<li>|<p>/g) ?? []).length;
+    const 숫자 = (s.match(/class="num/g) ?? []).length;
+    const 표행 = ((s.match(/<tbody>[\s\S]*?<\/tbody>/) ?? [""])[0].match(/<tr>/g) ?? []).length; // 머리 행 제외
+    if (줄 > 줄한도) 과다.push(`${k + 1}장 ${줄}줄`);
+    if (숫자 > 1) 과다.push(`${k + 1}장 핵심 숫자 ${숫자}개`);
+    if (표행 > 6) 과다.push(`${k + 1}장 표 ${표행}행`);
+  });
+  if (과다.length === 0) pass(`슬라이드 분량: 모든 장 뼈대 ${줄한도}줄 이내 · 핵심 숫자 1개 이내 · 표 6행 이내`);
+  else fail(`슬라이드 분량 초과: ${과다.join(", ")}`);
   // 슬라이드의 숫자는 보고서 md 에 있어야 한다 (슬라이드에만 있는 숫자 금지)
   // 머리(시간 구간·번호)는 교안 116p 배분이라 제외
   const 숫자 = [...new Set([...html.replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>|<div class="hdr">[\s\S]*?<\/div>|<!--[\s\S]*?-->|data-seg="[^"]*"/g, "").matchAll(/\d+(?:[.,]\d+)?\s*(?:NM|초|분|명|kn|건|행|장|일|파일|%|번)/g)].map((m) => m[0].replace(/\s+/g, " ")))];

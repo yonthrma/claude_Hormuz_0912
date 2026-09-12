@@ -9,7 +9,9 @@
 --ok:#00614A;--okbg:#D9F9F0;--okln:#00B88E;--unk:#8A5A00;--unkbg:#FFF1CC;--unkln:#C99A2E;--bad:#8A2B2B;--badbg:#F7E0E0;--badln:#C25A5A}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-weight:600;overflow:hidden}
-#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center}
+/* 무대: 1280×720 기준 크기를 비율대로 키우되, 화면 전체를 채운다(레터박스 없음).
+   그래서 출처 위의 선과 출처는 어느 화면 비율에서도 화면 바닥에 온다. */
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0}
 .slide{display:none;position:absolute;inset:0;padding:40px 64px 56px;background:var(--bg)}
 .slide.on{display:block}
 .hdr{display:flex;justify-content:space-between;font-size:18px;color:var(--sub);font-weight:600}
@@ -40,7 +42,7 @@ td.k{font-weight:800;white-space:nowrap}
 #hint{position:fixed;right:12px;bottom:10px;font-size:18px;color:var(--sub);font-weight:600}
 @media print{
   html,body{overflow:visible;height:auto;background:#fff}
-  #stage{position:static;transform:none!important;width:auto;height:auto}
+  #stage{position:static;transform:none!important;width:1280px!important;height:auto!important}
   .slide{display:block;position:relative;width:1280px;height:720px;page-break-after:always;break-after:page}
   #bar,#hint{display:none}
   @page{size:1280px 720px;margin:0}
@@ -53,7 +55,7 @@ td.k{font-weight:800;white-space:nowrap}
 <!-- ───────── 3분 · 문제 (4장) ───────── -->
 <section class="slide first on" data-seg="3분 · 문제">
   <div class="hdr"><span class="seg">3분 · 문제</span><span>1 / 12</span></div>
-  <h1>HANBADA 3 호르무즈 억류<br>항차 이상 보고 (TR-2026-0912 안)</h1>
+  <h1>HANBADA 3 호르무즈 억류<br>항차 이상 보고 (TR-2026-0912)</h1>
   <div class="body">
     <p>기술기획팀 · 2026-09-12 · 본부장 결정 6건에 필요한 근거</p>
     <p>자료: 사건데이터 46개 파일 — 문서 38개 전문, 로그 43만 행 코드 집계</p>
@@ -263,7 +265,7 @@ td.k{font-weight:800;white-space:nowrap}
 <script>
 (function(){
   var slides=[].slice.call(document.querySelectorAll('.slide')),i=0,stage=document.getElementById('stage'),bar=document.getElementById('bar');
-  function fit(){var s=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+  function fit(){var s=Math.min(innerWidth/1280,innerHeight/720);stage.style.width=(innerWidth/s)+'px';stage.style.height=(innerHeight/s)+'px';stage.style.transform='scale('+s+')';}
   function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach(function(s,k){s.classList.toggle('on',k===i);});bar.style.width=((i+1)/slides.length*100)+'%';location.hash='s'+(i+1);}
   addEventListener('resize',fit);fit();
   var h=parseInt((location.hash||'').replace('#s',''),10);show(isNaN(h)?0:h-1);
