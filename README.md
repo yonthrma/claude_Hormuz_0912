@@ -41,6 +41,7 @@ python 분석/보고서_html변환.py            # md → 보고서 HTML
 node 검사_보고서.mjs 보고서_yonthrma.md    # 내용 11항목 (숫자 재현 포함)
 node 검사_HTML.mjs 보고서_yonthrma.html    # 디자인.md 16항목
 node 검사_HTML.mjs 발표_yonthrma.html      # 디자인.md 13항목
+python 분석/검사_대본대조.py               # 화면에 있는 근거·숫자를 대본이 말하는지
 ```
 
 ## 구성
