@@ -198,6 +198,11 @@ if (is발표) {
   if (lead없음 === 0) pass("모든 장에 풀어쓰기 한 줄(lead) 있음"); else fail(`풀어쓰기 없는 장 ${lead없음}`);
   const 과정문구 = ["제목만 본", "미사용", "검색 요약", "WebFetch", "403"].filter((w) => html.replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>|<!--[\s\S]*?-->/g, "").includes(w));
   if (과정문구.length === 0) pass("작업 과정 문구 없음"); else fail(`작업 과정 문구가 슬라이드에 있음: ${과정문구.join(", ")}`);
+  // 출처는 한 줄 — 두 줄이 되면 선이 올라와 본문과 겹친다 (디자인.md §6)
+  const nowrap = /\.src\{[^}]*white-space:nowrap/.test(html);
+  const 긴출처 = [...html.matchAll(/<div class="src">([^<]*)<\/div>/g)].map((m) => m[1]).filter((s) => s.length > 78);
+  if (nowrap && 긴출처.length === 0) pass("출처 한 줄 (nowrap · 78자 이내)");
+  else fail(nowrap ? `출처가 78자를 넘음 ${긴출처.length}장` : "출처에 nowrap 없음 — 두 줄이 되면 본문과 겹침");
   const 섹션들 = [...html.matchAll(/<section class="slide[\s\S]*?<\/section>/g)].map((m) => m[0]);
   const 근거없음 = 섹션들.filter((s) => !/class="src">[^<]*\.(md|csv|py|json)/.test(s)).length;
   if (근거없음 === 0) pass("모든 슬라이드 하단에 파일명 근거 있음"); else fail(`파일명 근거 없는 슬라이드 ${근거없음}장`);
