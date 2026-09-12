@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발표 — HANBADA 3 호르무즈 억류 항차 이상 보고 (10분)</title>
+<style>
+:root{--bg:#FBF8F2;--card:#FFFFFF;--ink:#1F2933;--sub:#52606D;--line:#1F2933;--soft:#CBD2D9;--thead:#EEF1F4;--pt:#7A2A46;--ptbg:#FFE3EE;
+--ok:#00614A;--okbg:#D9F9F0;--okln:#00B88E;--unk:#8A5A00;--unkbg:#FFF1CC;--unkln:#C99A2E;--bad:#8A2B2B;--badbg:#F7E0E0;--badln:#C25A5A}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-weight:600;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center}
+.slide{display:none;position:absolute;inset:0;padding:40px 64px 56px;background:var(--bg)}
+.slide.on{display:block}
+.hdr{display:flex;justify-content:space-between;font-size:18px;color:var(--sub);font-weight:600}
+.hdr .seg{font-weight:800}
+.slide.first .hdr .seg{color:var(--pt)}
+h1{font-size:40px;font-weight:800;margin:18px 0 22px;line-height:1.25}
+.num{font-size:64px;font-weight:800;line-height:1.1;margin:0 0 14px}
+.num.bad{color:var(--bad)} .num.pt{color:var(--pt)}
+.body{font-size:28px;line-height:1.4;font-weight:600}
+.body p{margin:0 0 10px}
+.body ul{margin:0;padding-left:34px} .body li{margin:0 0 8px}
+.tag{display:inline-block;font-size:20px;font-weight:800;border:3px solid;border-radius:6px;padding:0 10px;margin:0 6px 6px 0;line-height:1.5}
+.tag.bad{color:var(--bad);background:var(--badbg);border-color:var(--badln)}
+.tag.unk{color:var(--unk);background:var(--unkbg);border-color:var(--unkln)}
+.tag.ok{color:var(--ok);background:var(--okbg);border-color:var(--okln)}
+.tag.pt{color:var(--pt);background:var(--ptbg);border-color:var(--pt)}
+.tag.no{color:var(--sub);background:var(--thead);border-color:var(--soft)}
+.src{position:absolute;left:64px;right:64px;bottom:40px;font-size:20px;color:var(--sub);font-weight:600;border-top:2px solid var(--soft);padding-top:8px}
+.tbl{background:var(--card);border:2px solid var(--line);border-radius:6px;overflow:hidden}
+table{border-collapse:collapse;width:100%;font-size:22px;line-height:1.35}
+th{background:var(--thead);text-align:left;padding:8px 12px;border-bottom:2px solid var(--line);font-weight:700}
+td{padding:8px 12px;border-top:1px solid var(--soft);vertical-align:top;font-weight:600}
+td.k{font-weight:800;white-space:nowrap}
+.cols{display:flex;gap:40px} .cols>div{flex:1}
+.tl{list-style:none;padding:0;margin:0;font-size:28px;line-height:1.35}
+.tl li{display:flex;gap:18px;margin:0 0 10px} .tl b{width:110px;flex:none;font-weight:800}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:var(--pt);width:0}
+#hint{position:fixed;right:12px;bottom:10px;font-size:18px;color:var(--sub);font-weight:600}
+@media print{
+  html,body{overflow:visible;height:auto;background:#fff}
+  #stage{position:static;transform:none!important;width:auto;height:auto}
+  .slide{display:block;position:relative;width:1280px;height:720px;page-break-after:always;break-after:page}
+  #bar,#hint{display:none}
+  @page{size:1280px 720px;margin:0}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ───────── 3분 · 문제 (4장) ───────── -->
+<section class="slide first on" data-seg="3분 · 문제">
+  <div class="hdr"><span class="seg">3분 · 문제</span><span>1 / 12</span></div>
+  <h1>HANBADA 3 호르무즈 억류<br>항차 이상 보고 (TR-2026-0912 안)</h1>
+  <div class="body">
+    <p>기술기획팀 · 2026-09-12 · 본부장 결정 6건에 필요한 근거</p>
+    <p>자료: 사건데이터 46개 파일 — 문서 38개 전문, 로그 43만 행 코드 집계</p>
+    <p>외부 33건 본문 확인 · 제목만 본 10건 미사용</p>
+  </div>
+  <div class="src">보고서_yonthrma.md · 리서치_외부정세_20260912.md · 분석/결과_사실재구성.json</div>
+</section>
+
+<section class="slide" data-seg="3분 · 문제">
+  <div class="hdr"><span class="seg">3분 · 문제</span><span>2 / 12</span></div>
+  <h1>09-11 밤, 무슨 일이 있었나</h1>
+  <div class="cols">
+    <div>
+      <ul class="tl">
+        <li><b>23:12</b><span>GNSS 교란 시작 (위성 14→7)</span></li>
+        <li><b>23:32</b><span>시스템이 승인 없이 침로 변경 (→318°)</span></li>
+        <li><b>23:58</b><span>제한수역 경계 통과 — 경보만</span></li>
+        <li><b>00:58</b><span>수동 전환, 기관 정지</span></li>
+        <li><b>01:20</b><span>승선 검문, 선원 억류</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="num bad">11명</div>
+      <div class="body"><p>한국 8 · 베트남 2 · 필리핀 1</p><p>팀장 지시: "뭘 잘못했고, 뭘 해야 하나"</p></div>
+    </div>
+  </div>
+  <div class="src">운항로그/시스템이벤트.csv · 운항로그/위성수신_HANBADA3.csv · 선박서류/승선원명단.md</div>
+</section>
+
+<section class="slide" data-seg="3분 · 문제">
+  <div class="hdr"><span class="seg">3분 · 문제</span><span>3 / 12</span></div>
+  <h1>문제로 정한 것 4건</h1>
+  <div class="body">
+    <ul>
+      <li><span class="tag bad">P1</span> 승인 없이 가는 기능(NAV-PLAN-211)을 검증 시험 없이 배포</li>
+      <li><span class="tag bad">P2</span> 경보 → 수동 전환 86분. 절차·교육·인력 배치 부재</li>
+      <li><span class="tag bad">P3</span> 위험구역 준비 부재 — 보험 사전통보·위험수당·통항 허가</li>
+      <li><span class="tag bad">P4</span> 당사 로그로 실제 위치를 증명할 수 없음</li>
+    </ul>
+  </div>
+  <div class="src">보고서 §1 · 개발/HB-NAV_4.2_릴리스노트.md · 관제센터/절차서_경보대응_발췌.md · 재무/전쟁위험보험_통보이력.csv</div>
+</section>
+
+<section class="slide" data-seg="3분 · 문제">
+  <div class="hdr"><span class="seg">3분 · 문제</span><span>4 / 12</span></div>
+  <h1>문제로 정하지 않은 것 — 이란의 GNSS 교란</h1>
+  <div class="body">
+    <ul>
+      <li>교란은 사실. 그러나 당사가 통제할 수 없는 요인</li>
+      <li>이란 발표는 "영해 침범·경고 무응답"만 언급 — 자동화 언급 없음</li>
+      <li>이란은 UNCLOS 미비준. 1993년 해양법 제8조 통항 정지·제11조 억류 권한</li>
+    </ul>
+    <p><span class="tag no">✕ 채택 안 함</span> 개발1팀 "우리 입장을 빨리 내보내야"</p>
+  </div>
+  <div class="src">외부/발표_20260912_상대국.md · 사내/메일_20260912_개발1팀.md · UN DOALOS 이란 1993년 법 · Opinio Juris 2026-05-06</div>
+</section>
+
+<!-- ───────── 4분 · 근거 (5장) ───────── -->
+<section class="slide first" data-seg="4분 · 근거">
+  <div class="hdr"><span class="seg">4분 · 근거</span><span>5 / 12</span></div>
+  <h1>교란은 데이터로 확인됨</h1>
+  <div class="cols">
+    <div>
+      <div class="num">6,360초</div>
+      <div class="body"><p>23:12:00 ~ 00:57:59 교란 등급 1~2</p></div>
+    </div>
+    <div class="body">
+      <ul>
+        <li>23:11:59 → 23:12:00 위성 14→7, SNR 43.3→30.2</li>
+        <li>23:29 등급 2 — 위성 최소 3, HDOP 최대 9.5</li>
+        <li>18~22시 정상(위성 12.5, 교란 0) · 01시 이후 정상</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">운항로그/위성수신_HANBADA3.csv (108,000행) · 분석/결과_사실재구성.json</div>
+</section>
+
+<section class="slide" data-seg="4분 · 근거">
+  <div class="hdr"><span class="seg">4분 · 근거</span><span>6 / 12</span></div>
+  <h1>23:32 침로 변경은 설계 동작</h1>
+  <div class="cols">
+    <div>
+      <div class="num bad">120초</div>
+      <div class="body"><p>23:32:00 재계산 → 23:34:00 승인 미수신 타임아웃 → 진행</p></div>
+    </div>
+    <div class="body">
+      <ul>
+        <li>관제 기록에 승인(APPROVE) 행 0건</li>
+        <li>23:36 "항로 변경 화면 확인. 시스템 판단 신뢰"</li>
+        <li>4.1: 승인 없으면 기존 항로 유지 → 4.2(05-30): 온보드 판단 진행</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">운항로그/시스템이벤트.csv · 운항로그/원격관제기록.csv · 개발/HB-NAV_4.2_릴리스노트.md §4</div>
+</section>
+
+<section class="slide" data-seg="4분 · 근거">
+  <div class="hdr"><span class="seg">4분 · 근거</span><span>7 / 12</span></div>
+  <h1>검증 없이 배포, 전조는 있었다</h1>
+  <div class="cols">
+    <div>
+      <div class="num bad">1.149 NM</div>
+      <div class="body"><p>5월 항차 위치 점프 (22:10:00) → "모니터링 계속" 종결</p></div>
+    </div>
+    <div class="body">
+      <ul>
+        <li>GNSS-03(스푸핑 중 재계산·타임아웃) 미수행 배포 — 품질팀 반대</li>
+        <li>기술본부 "실해역 스푸핑 빈도 낮음"</li>
+        <li>같은 구역 항행경보 03-15 · 05-02 · 06-28 · 08-19</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">이전항차/항적_HANBADA3_202605.csv · 개발/HB-NAV_4.2_시험성적서.md §2 · 사내/이슈트래커.csv · 외부/통지_20260912_항만당국.md</div>
+</section>
+
+<section class="slide" data-seg="4분 · 근거">
+  <div class="hdr"><span class="seg">4분 · 근거</span><span>8 / 12</span></div>
+  <h1>경보 → 수동 전환까지</h1>
+  <div class="cols">
+    <div>
+      <div class="num bad">86분</div>
+      <div class="body"><p>특례 제7조 2호 "지체 없이 수동 전환"</p></div>
+    </div>
+    <div class="body">
+      <ul>
+        <li>경계 접근(23:41)·통과(23:58) 경보 둘 다 alert_only</li>
+        <li>VHF 호출 23:47·23:52 무응답 → 선명 지정 00:04 에 41초 응답</li>
+        <li>속력 13.77~14.2 kn 유지 — 감속 없음</li>
+        <li>관제사: 2분 내 확인은 이행. "승인 대기" 교육 없음. 연속 야간 6일</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">선박서류/실증특례_승인서.md · 운항로그/VHF교신록.md · 운항로그/항적_HANBADA3.csv · 관제센터/진술서_관제사A.md · 관제센터/근무기록_20260911.csv</div>
+</section>
+
+<section class="slide" data-seg="4분 · 근거">
+  <div class="hdr"><span class="seg">4분 · 근거</span><span>9 / 12</span></div>
+  <h1>P4 — 우리 로그로 위치를 증명할 수 없다</h1>
+  <div class="cols">
+    <div>
+      <div class="num bad">55.37 NM</div>
+      <div class="body"><p>23:47 순찰선 호출 좌표 ↔ 항적 기록 위치</p></div>
+    </div>
+    <div class="body">
+      <ul>
+        <li>이벤트 로그 "1.4 NM 점프" — 항적 108,000행에 0.1 NM 이상 점프 0건</li>
+        <li>01:20 이후 항적 이동 0.036 NM — 타임라인 "예인"과 불일치</li>
+        <li><span class="tag ok">✔ 숫자 재현 82/82</span> 원본 CSV 재계산 = 보고서</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">운항로그/항적_HANBADA3.csv · 운항로그/VHF교신록.md · 분석/사실재구성.py · 분석/테스트_숫자재현.py</div>
+</section>
+
+<!-- ───────── 2분 · 결론 (2장) ───────── -->
+<section class="slide first" data-seg="2분 · 결론">
+  <div class="hdr"><span class="seg">2분 · 결론</span><span>10 / 12</span></div>
+  <h1>결정 6건 — 근거상 우세한 안</h1>
+  <div class="tbl"><table>
+    <thead><tr><th>결정</th><th>검토 결과</th><th>핵심 근거</th></tr></thead>
+    <tbody>
+      <tr><td class="k">선원 11명</td><td><span class="tag pt">정부 창구</span></td><td>OFAC FAQ 1249 · 한국케미 29일/95일</td></tr>
+      <tr><td class="k">선박·화물</td><td><span class="tag pt">선례 범위만 통보</span></td><td>용선 14.2 억류 30일 초과 해지 · 19.2</td></tr>
+      <tr><td class="k">나머지 2척</td><td><span class="tag pt">NAV-PLAN-211 끄기 + 교란 해역 금지</span></td><td>GNSS-03 미수행 · 특례 제7조 2호</td></tr>
+      <tr><td class="k">해수부 보고</td><td><span class="tag pt">09-12 23:32 이전</span></td><td>특례 제9조 1·2·3호 · 법 제20조 ③</td></tr>
+      <tr><td class="k">보험</td><td><span class="tag pt">즉시 통지 + 누락 고지</span></td><td>72h 미통보 · 약관 5.1.4/5.1.5</td></tr>
+      <tr><td class="k">대외 발표</td><td><span class="tag pt">사실 확인 성명만</span></td><td>법무 허위 공표 위험 · 사내 반대 기록 4건</td></tr>
+    </tbody>
+  </table></div>
+  <div class="src">보고서 §3-1 ~ §3-6 · 사내/메일_20260912_법무팀.md · 선박서류/용선계약_발췌.md · 선박서류/보험증권_발췌.md</div>
+</section>
+
+<section class="slide" data-seg="2분 · 결론">
+  <div class="hdr"><span class="seg">2분 · 결론</span><span>11 / 12</span></div>
+  <h1>채택하지 않은 안</h1>
+  <div class="body">
+    <ul>
+      <li><span class="tag no">✕</span> 회사 단독 석방 교섭 — OFAC 제재 위험, 이란 "국제법 위반" 주장</li>
+      <li><span class="tag no">✕</span> "시스템 정상" 성명 — 사내 반대 기록 4건, 허위 공표 위험</li>
+      <li><span class="tag no">✕</span> 나머지 2척 현행 유지 — 동일 설계·동일 결과</li>
+      <li><span class="tag no">✕</span> 억류 기간 "전망", 불가항력 즉시 주장 — 표본 4건, 용선 19.2</li>
+    </ul>
+    <p><span class="tag bad">● 최악</span> 특례 정지 + 담보 거절 + 2척 중단 — 세 요소 상호 연동. 확률은 산정 불가</p>
+  </div>
+  <div class="src">보고서 부록 C · §3-7 · 재무/계약손실_산정근거.md · 재무/회사현황.md</div>
+</section>
+
+<!-- ───────── 1분 · 모르는 것 (1장) ───────── -->
+<section class="slide first" data-seg="1분 · 모르는 것">
+  <div class="hdr"><span class="seg">1분 · 모르는 것</span><span>12 / 12</span></div>
+  <h1>확인하지 못한 것 — 미확인 사항 중 4개</h1>
+  <div class="body">
+    <ul>
+      <li><span class="tag unk">▲ #1</span> 항적 좌표의 출처 — GNSS 원시 / 융합 / 추측항법</li>
+      <li><span class="tag unk">▲ #2</span> 실제 위치 — 선내 레이더·VDR·상대국 자료 필요</li>
+      <li><span class="tag unk">▲ #3</span> 호르무즈해협청 통항 허가 취득 여부</li>
+      <li><span class="tag unk">▲ #9</span> 정부 창구 소요 기간 — 파병 논쟁의 영향</li>
+    </ul>
+    <p>이 네 가지를 모르므로 "영해 밖이었다" · "곧 풀린다" · "보험 된다"는 쓰지 않았음</p>
+  </div>
+  <div class="src">보고서 §4 · 리서치_외부정세_20260912.md §0 · §9</div>
+</section>
+
+</div>
+<div id="bar"></div>
+<div id="hint">← → · 클릭</div>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide')),i=0,stage=document.getElementById('stage'),bar=document.getElementById('bar');
+  function fit(){var s=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+  function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach(function(s,k){s.classList.toggle('on',k===i);});bar.style.width=((i+1)/slides.length*100)+'%';location.hash='s'+(i+1);}
+  addEventListener('resize',fit);fit();
+  var h=parseInt((location.hash||'').replace('#s',''),10);show(isNaN(h)?0:h-1);
+  addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(i+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+  stage.addEventListener('click',function(e){show(e.clientX<innerWidth/3?i-1:i+1);});
+})();
+</script>
+</body>
+</html>
